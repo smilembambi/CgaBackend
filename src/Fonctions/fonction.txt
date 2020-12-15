@@ -1,0 +1,2060 @@
+    <?php
+    // Récupère l'heure du serveur
+       $localtime = localtime();
+
+       $seconde =  $localtime[0];
+       $minute =  $localtime[1];
+       $heure =  $localtime[2];
+    ?>
+
+
+    <?php
+    /*---------------------------------------------------------------*/
+    /*
+        Titre : Affiche la citation du jour sur votre site
+
+        URL   : https://phpsources.net/code_s.php?id=604
+        Date édition     : 15 Sept 2010
+        Date mise à jour : 17 Aout 2019
+        Rapport de la maj:
+        - fonctionnement du code vérifié
+    */
+    /*---------------------------------------------------------------*/
+
+         function citation_du_jour(){
+            // nom du fichier ou setrouve les citations
+            $nom_du_fichier_texte = "citations.txt";
+            // ouverture du fichier
+            $f1 = fopen($nom_du_fichier_texte, "r");
+            // lecture du fichier
+            $contenu = fread($f1, filesize($nom_du_fichier_texte));
+            // fermeture du fichier
+            fclose($f1);
+            // on place les citations dans un tableau
+            $tab_numero_citation = explode("\n",$contenu);
+            // l'argument 'z' retourne le jour de l'année
+            $date = date("z");
+            // si le jour de l'année est supérieur au nombre de ligne du fichier
+            // c'est la première citation qui s'affiche
+            if($date > count($tab_numero_citation)){
+                return $tab_numero_citation[0];
+            // sinon on affiche la citation correspondant au jour
+            }else{
+                return $tab_numero_citation[$date];
+            }
+        }
+    ?>
+
+
+    <?php
+    /*---------------------------------------------------------------*/
+    /*
+        Titre : Limite en PHP la vitesse de download
+
+        URL   : https://phpsources.net/code_s.php?id=377
+        Auteur           : Matt
+        Date édition     : 27 Avril 2008
+        Date mise à jour : 22 Aout 2019
+        Rapport de la maj:
+        - fonctionnement du code vérifié
+    */
+    /*---------------------------------------------------------------*/
+
+        $file = "somefile.zip"; // Nom du fichier
+        $speed = 50; // i.e. 50 kb/s temps de telechargement
+        if(file_exists($file) && is_file($file)) {
+           header("Cache-control: private");
+           header("Content-Type: application/octet-stream");
+           header("Content-Length: ".filesize($file));
+           header("Content-Disposition: filename=$file" . "%20");
+           flush();
+           $fd = fopen($file, "r");
+           while(!feof($fd)) {
+              echo fread($fd, round($speed*1024)); // $speed kilobytes (Kb)
+              flush();
+              sleep(1);
+           }
+           fclose ($fd);
+        }
+    ?>
+
+
+
+    <?php
+    /*---------------------------------------------------------------*/
+    /*
+        Titre : Décalage horaires de 470 villes dans le monde
+
+        URL   : https://phpsources.net/code_s.php?id=883
+        Date édition     : 14 Fév 2019
+        Date mise à jour : 19 Aout 2019
+        Rapport de la maj:
+        - fonctionnement du code vérifié
+    */
+    /*---------------------------------------------------------------*/
+
+         $decalage = array("Abidjan / Cote D'Ivoire" => "0",
+         "Abu Dhabi / United Arab Emirates" => "4",
+         "Acapulco / Mexico" => "-6",
+         "Accra / Ghana" => "0",
+         "Ad Dawhah / Qatar" => "3",
+         "Addis Ababa / Ethiopia" => "3",
+         "Adelaide / Australia" => "10.5",
+         "Aden / Yeman" => "3",
+         "Aguascalientes / Mexico" => "-6",
+         "Ahmadabad / India" => "5.5",
+         "Aklavik / Canada" => "-7",
+         "Akron / USA" => "-5",
+         "Al Jizah / Egypt" => "2",
+         "Al Manamah / Bahrain" => "3",
+         "Alaska / USA" => "-9",
+         "Albany / USA" => "-5",
+         "Albuquerque / USA" => "-7",
+         "Aleutian / USA" => "-10",
+         "Alexandria / Egypt" => "2",
+         "Algiers / Algeria" => "1",
+         "Almaty / Kazakhstan" => "6",
+         "Amman / Jordan" => "2",
+         "Amsterdam / Netherland" => "1",
+         "Anadyr / Russia" => "13",
+         "Anchorage / USA" => "-9",
+         "Ankara / Turkey" => "2",
+         "Anshan / China" => "8",
+         "Antananarivo / Madagaskar" => "3",
+         "Apia / Western Samoa" => "-11",
+         "Arizona / USA" => "-7",
+         "Ashkhabad / Turkmenistan" => "5",
+         "Asuncion / Paraguay" => "-3",
+         "Athens / Greece" => "2",
+         "Atlanta / USA" => "-5",
+         "Atlantic / Canada" => "-4",
+         "Auckland / New Zealand" => "13",
+         "Augusta / USA" => "-5",
+         "Austin / USA" => "-6",
+         "Azores / Portugal" => "-1",
+         "Baghdad / Iraq" => "3",
+         "Baku / Azerbaijan" => "4",
+         "Baltimore / USA" => "-5",
+         "Bamako / Mali" => "0",
+         "Bandar Seri Begawan / Brunei" => "8",
+         "Bandung / Indonesia" => "7",
+         "Bangkalore / India" => "5.5",
+         "Bangkok / Thailand" => "7",
+         "Banjul / Gambia" => "0",
+         "Baotou / China" => "8",
+         "Barcelona / Spain" => "1",
+         "Baton Rouge / USA" => "-6",
+         "Beijing / China" => "8",
+         "Beirut / Lebanon" => "2",
+         "Belgrade / Serbia" => "1",
+         "Belmopan / Belize" => "-6",
+         "Belo Horizonte / Brazil" => "-2",
+         "Berlin / Germany" => "1",
+         "Bermuda / United Kingdom" => "-4",
+         "Bern / Switzerland" => "1",
+         "Birmingham / USA" => "-6",
+         "Birmingham / United Kingdom" => "0",
+         "Bishkek / Kazakhstan" => "5",
+         "Bismarck / USA" => "-6",
+         "Bissau / Guinea" => "0",
+         "Bogota / Colombia" => "-5",
+         "Boise / USA" => "-7",
+         "Bolivia / Santa Cruz" => "-4",
+         "Bombay / India" => "5.5",
+         "Boston / USA" => "-5",
+         "Brasilia / Brazil" => "-2",
+         "Bridgetown / Barbados" => "-4",
+         "Brisbane / Australia" => "10",
+         "Brussels / Belgium" => "1",
+         "Bucharest / Romania" => "2",
+         "Budapest / Hungary" => "1",
+         "Buenos Aires / Argentina" => "-3",
+         "Buffalo / USA" => "-5",
+         "Bujumbura / Burundi" => "2",
+         "Cairo / Egypt" => "2",
+         "Calcutta / India" => "5.5",
+         "Calgary / Canada" => "-7",
+         "Cali / Colombia" => "-5",
+         "Campinas / Brazil" => "-2",
+         "Canary Islands / Spain" => "1",
+         "Canberra / Australia" => "11",
+         "Canton / China" => "8",
+         "Cape Town / South Africa" => "2",
+         "Caracas / Venezuela" => "-4",
+         "Cardiff / Wales" => "0",
+         "Carson City / USA" => "-8",
+         "Cartagena / Colombia" => "-5",
+         "Casablanca / Morocco" => "0",
+         "Cayenne / French Guiana" => "-3",
+         "Central / Canada" => "-6",
+         "Central / USA" => "-6",
+         "Changchun / China" => "8",
+         "Changsha / China" => "8",
+         "Charleston / USA" => "-5",
+         "Charlotte / USA" => "-5",
+         "Chatham / New Zealand Island" => "13.75",
+         "Chelyabinsk / Russia" => "5",
+         "Chengdu / China" => "8",
+         "Chicago / USA" => "-6",
+         "Chihuahua / Mexico" => "-6",
+         "Chittagong / Bangladesh" => "6",
+         "Chungking / China" => "8",
+         "Cincinnati / USA" => "-5",
+         "Cleveland / USA" => "-5",
+         "Colombo / Sri Lanka" => "6",
+         "Columbia / USA" => "-5",
+         "Conacry / Guinea" => "0",
+         "Concord / USA" => "-5",
+         "Copenhagen / Denmark" => "1",
+         "Corboda / Argentina" => "-3",
+         "Curitiba / Brazil" => "-2",
+         "Dacca / Bangladesh" => "6",
+         "Dakar / Senegal" => "0",
+         "Dallas / USA" => "-6",
+         "Damascus / Syria" => "2",
+         "Dar es Salaam / Tanzania" => "3",
+         "Darwin / Australia" => "9.5",
+         "Denver / USA" => "-7",
+         "Des Moines / USA" => "-6",
+         "Detroit / USA" => "-5",
+         "Dhaka / Bangladesh" => "6",
+         "Dublin / Ireland" => "0",
+         "Dushanbe / Tajikistan" => "5",
+         "Dusseldorf / Germany" => "1",
+         "Eastern / USA" => "-5",
+         "Eastern / Canada" => "-5",
+         "Edmonton / Canada" => "-7",
+         "El Paso / USA" => "-7",
+         "Fairbanks / USA" => "-9",
+         "Foochow / China" => "8",
+         "Fortaleza / Brazil" => "-3",
+         "Frankfort / USA" => "-5",
+         "Frankfurt / Germany" => "1",
+         "Freetown / Sierra Leone" => "0",
+         "Fukuoka / Japan" => "9",
+         "Funafuti / Tuvalu" => "12",
+         "Fushun / China" => "8",
+         "Gaborone / Botswana" => "2",
+         "Gdansk / Poland" => "1",
+         "Geneva / Switzerland" => "1",
+         "Georgetown / United Kingdom" => "-5",
+         "Georgetown / Guyana" => "-4",
+         "Gibraltar / United Kingdom" => "1",
+         "Glasgow / Scotland" => "0",
+         "Goiania / Brazil" => "-2",
+         "Guadalajara / Mexico" => "-6",
+         "Guam / USA" => "10",
+         "Guatemala City / Guatemala" => "-6",
+         "Guayaquil / Ecuador" => "-5",
+         "Guiyang / China" => "8",
+         "Halifax / Canada" => "-4",
+         "Hamburg / Germany" => "1",
+         "Hamilton / Bermuda" => "-4",
+         "Hangzhou / China" => "8",
+         "Hanoi / Vietnam" => "7",
+         "Harare / Zambabwe" => "2",
+         "Harbin / China" => "8",
+         "Harrisburg / USA" => "-5",
+         "Hartford / USA" => "-5",
+         "Havana / Cuba" => "-5",
+         "Hawaii / USA" => "-10",
+         "Helena / USA" => "-7",
+         "Helsinki / Finland" => "2",
+         "Hobart / Australia" => "11",
+         "Hong Kong / China" => "8",
+         "Honiara / Solomon Islands" => "11",
+         "Honolulu / USA" => "-10",
+         "Houston / USA" => "-6",
+         "Hyderabad / India" => "5.5",
+         "Inch'on / Korea" => "9",
+         "Indiana East / USA" => "-5",
+         "Indianapolis / USA" => "-5",
+         "Irkutsk / Russia" => "8",
+         "Islamabad / Pakistan" => "5",
+         "Istanbul / Turkey" => "2",
+         "Izmir / Turkey" => "2",
+         "Jackson / USA" => "-6",
+         "Jacksonville / USA" => "-5",
+         "Jaipur / India" => "5.5",
+         "Jakarta / Indonesia" => "7",
+         "Jefferson City / USA" => "-6",
+         "Jerusalem / Israel" => "2",
+         "Jilin / China" => "8",
+         "Jinan / China" => "8",
+         "Jinzhou / China" => "8",
+         "Johannesburg / South Africa" => "2",
+         "Juneau / USA" => "-9",
+         "Kabul / Afghanistan" => "4.5",
+         "Kaliningrad / Russia" => "2",
+         "Kamchatka / Russia" => "12",
+         "Kampala / Uganda" => "3",
+         "Kano Nigeria / Nigeria" => "1",
+         "Kanpur / India" => "5.5",
+         "Kansas City / USA" => "-6",
+         "Kathmandu / Nepal" => "5.75",
+         "Kaunas / Lithuania" => "1",
+         "Kawasaki / Japan" => "9",
+         "Kazan / Russia" => "3",
+         "Khartoum / Sudan" => "2",
+         "Kiev / Ukraine" => "2",
+         "Kigali / Rwanda" => "2",
+         "Kingston / Jamaica" => "-5",
+         "Kinshasa / Zaire" => "1",
+         "Kiritimati / Kiribati" => "14",
+         "Kishinev / Moldova" => "2",
+         "Kitakyushu / Japan" => "9",
+         "Kobe / Japan" => "9",
+         "Kolonia / Fed. States of Micronesia" => "11",
+         "Kowloon / China" => "8",
+         "Krakow / Poland" => "1",
+         "Krasnoyarsk / Russia" => "7",
+         "Kuala Lumpur / Malaysia" => "8",
+         "Kubul / Afghanistan" => "4.5",
+         "Kunming / China" => "8",
+         "Kuwait City / Kuwait" => "3",
+         "Kyoto / Japan" => "9",
+         "La Paz / Bolivia" => "-4",
+         "La Plata / Argentina" => "-3",
+         "Lagos / Nigeria" => "1",
+         "Lanchow / China" => "8",
+         "Las Vegas / USA" => "-8",
+         "Leon / Mexico" => "-6",
+         "Libreville / Gabon" => "1",
+         "Lilongve / Malawi" => "2",
+         "Lima / Peru" => "-5",
+         "Lincoln / USA" => "-6",
+         "Lisbon / Portugal" => "0",
+         "Little Rock / USA" => "-6",
+         "Liverpool / United Kingdom" => "0",
+         "Lodz / Poland" => "1",
+         "Lome / Togo" => "0",
+         "London / England" => "0",
+         "Los Angeles / USA" => "-8",
+         "Louisville / USA" => "-5",
+         "Luanda / Angola" => "1",
+         "Lubumbashi / Zaire" => "2",
+         "Lucknow / India" => "5.5",
+         "Luda / China" => "8",
+         "Luoyang / China" => "8",
+         "Lusaka / Zambia" => "2",
+         "Luxembourg / Luxembourg" => "1",
+         "Maceio / Brazil" => "-2",
+         "Madison / USA" => "-6",
+         "Madras / India" => "5.5",
+         "Madrid / Spain" => "1",
+         "Magadan / Russia" => "11",
+         "Makkah / Saudi Arabia" => "3",
+         "Makwa / Nauru" => "12",
+         "Malang / Indonesia" => "7",
+         "Managua / Nicaragua" => "-6",
+         "Manaus / Brazil" => "-4",
+         "Manila / Philippines" => "8",
+         "Manizales / Colombia" => "-5",
+         "Maputo / Mocambique" => "2",
+         "Mar del Plata / Argentina" => "-3",
+         "Maracaibo / Venezuela" => "-4",
+         "Maracay / Venezuela" => "-4",
+         "Maseru / Lesotho" => "2",
+         "Mazatlan / Mexico" => "-7",
+         "Mbabane / Swaziland" => "2",
+         "Medan / Indonesia" => "7",
+         "Medellin / Colombia" => "-5",
+         "Melbourne / Australia" => "10",
+         "Memphis / USA" => "-6",
+         "Mendoza / Argentina" => "-3",
+         "Merida / Mexico" => "-6",
+         "Mexicali / Mexico" => "-8",
+         "Mexico City / Mexico" => "-6",
+         "Miami / USA" => "-5",
+         "Milan / Italy" => "1",
+         "Milwaukee / USA" => "-6",
+         "Minneapolis / USA" => "-6",
+         "Minsk / Belarus" => "2",
+         "Mobile / USA" => "-6",
+         "Mogadishu / Somalia" => "3",
+         "Monaco / France" => "1",
+         "Monrovia / Liberia" => "0",
+         "Monterrey / Mexico" => "-6",
+         "Montevideo / Uruguay" => "-3",
+         "Montgomery / USA" => "-6",
+         "Montpelier / USA" => "-5",
+         "Montreal / Canada" => "-5",
+         "Moscow / Russia" => "3",
+         "Mountain / Canada" => "-7",
+         "Mountain / USA" => "-7",
+         "Munich / Germany" => "1",
+         "Murmansk / Russia" => "3",
+         "Muscat / Oman" => "4",
+         "Nagoya / Japan" => "9",
+         "Nagpur / India" => "5.5",
+         "Nairobi / Kenya" => "3",
+         "Nanchang / China" => "8",
+         "Naples / Italy" => "1",
+         "Nashville / USA" => "-6",
+         "Nassau / Bahamas" => "-5",
+         "Natal / Brazil" => "-3",
+         "Ndjamena / Chad" => "1",
+         "New Delhi / India" => "5.5",
+         "New Orleans / USA" => "-6",
+         "New York / USA" => "-5",
+         "Newfoundland / Canada" => "-3.5",
+         "Niamey / Niger" => "1",
+         "Nice / France" => "1",
+         "Niteroi / Brazil" => "-2",
+         "Nome / USA" => "-9",
+         "Norfolk / USA" => "-5",
+         "Nouakchott / Mauritania" => "0",
+         "Novgorod / Russia" => "3",
+         "Novosibirsk / Russia" => "6",
+         "Nukualofa / Tonga" => "13",
+         "Oakland / USA" => "-8",
+         "Odessa / Ukraine" => "2",
+         "Oklahoma City / USA" => "-6",
+         "Omsk / Russia" => "6",
+         "Osaka / Japan" => "9",
+         "Oslo / Norway" => "1",
+         "Ottawa / Canada" => "-5",
+         "Ouagadougou / Burkina Faso" => "0",
+         "Pacific / Canada" => "-8",
+         "Pacific / USA" => "-8",
+         "Palembang / Indonesia" => "7",
+         "Palma / Spain" => "1",
+         "Panama / Panama" => "-5",
+         "Papeete / Tahiti" => "-10",
+         "Paramaribo / Suriname" => "-3",
+         "Paramaribo / Suriname" => "-3",
+         "Paris / France" => "1",
+         "Perm / Russia" => "5",
+         "Perth / Australia" => "8",
+         "Philadelphia / USA" => "-5",
+         "Phnomh Penh / Cambodia" => "7",
+         "Phoenix / USA" => "-7",
+         "Pierre / USA" => "-6",
+         "Pittsburgh / USA" => "-5",
+         "Port Alegre / Brazil" => "-2",
+         "Port Louis / Mauritius" => "4",
+         "Port Moresby / Papua New Guinea" => "10",
+         "Port of Spain / Trinidad and Tobago" => "-4",
+         "Port-aux-Francais / Kerguelen-France" => "5",
+         "Portland / USA" => "-8",
+         "Porto / Portugal" => "0",
+         "Porto Novo / Benin" => "1",
+         "Poznan / Poland" => "1",
+         "Prague / Czech Republic" => "1",
+         "Pretoria / South Africa" => "2",
+         "Pusan / Korea" => "9",
+         "Pyongyang / North Korea" => "9",
+         "Qiqihar / China" => "8",
+         "Quebec / Canada" => "-5",
+         "Quito / Ecuador" => "-5",
+         "Rabat / Morocco" => "0",
+         "Raleigh / USA" => "-5",
+         "Rangoon / Burma" => "6.5",
+         "Rarotonga / Cook Islands" => "-10",
+         "Recife / Brazil" => "-3",
+         "Regina / Canada" => "-6",
+         "Reykjavik / Iceland" => "0",
+         "Richmond / USA" => "-5",
+         "Riga / Latvia" => "2",
+         "Rio de Janeiro / Brazil" => "-2",
+         "Riyadh / Saudi Arabia" => "3",
+         "Rochester / USA" => "-5",
+         "Rome / Italy" => "1",
+         "Rotterdam / Netherlands" => "1",
+         "Sacramento / USA" => "-8",
+         "Saigon / Vietnam" => "7",
+         "Saint Louis / USA" => "-6",
+         "Saint Paul / USA" => "-6",
+         "Saint-Denis / Reunion" => "4",
+         "Salem / USA" => "-8",
+         "Salt Lake City / USA" => "-7",
+         "Salvador / Brazil" => "-2",
+         "Salzburg / Austria" => "1",
+         "Samara / Russia" => "4",
+         "San Francisco / USA" => "-8",
+         "San Jose / Costa Rica" => "-6",
+         "San Jose / USA" => "-8",
+         "San Juan / Puerto Rico" => "-4",
+         "San Luis Potosi / Mexico" => "-6",
+         "San Salvador / El Salvador" => "-6",
+         "Sana / Yemen" => "3",
+         "Sankt-Peterburg / Russia" => "3",
+         "Santa Ana / El Salvador" => "-6",
+         "Santa Fe / USA" => "-7",
+         "Santiago / Chile" => "-3",
+         "Santo Domingo / Dom. Republic" => "-4",
+         "Santos / Brazil" => "-2",
+         "Sao Paulo / Brazil" => "-2",
+         "Sapporo / Japan" => "9",
+         "Saskatchewan / Canada" => "-6",
+         "Seattle / USA" => "-8",
+         "Semarang / Indonesia" => "7",
+         "Seoul / South Korea" => "9",
+         "Shanghai / China" => "8",
+         "Shijiazhuang / China" => "8",
+         "Sian / China" => "8",
+         "Singapore / Sinapore" => "8",
+         "Skopje / Macedonia" => "1",
+         "Sofia / Bulgaria" => "2",
+         "St. John's / Canada" => "-3.5",
+         "Stanley / Argentina" => "-3",
+         "Stockholm / Sweden" => "1",
+         "Surabaya / Indonesia" => "7",
+         "Surakarta / Indonesia" => "7",
+         "Suva / Fiji" => "12",
+         "Sverdlovsk / Russia" => "5",
+         "Sydney / Australia" => "11",
+         "Szczecin / Poland" => "1",
+         "Taegu / Korea" => "9",
+         "Taipei / Taiwan" => "8",
+         "Taiyuan / China" => "8",
+         "Tallinn / Estonia" => "2",
+         "Tampa / USA" => "-5",
+         "Tanger / Morocco" => "0",
+         "Tangshan / China" => "8",
+         "Tarawa / Kiribati" => "12",
+         "Tashkent / Uzbekistan" => "5",
+         "Tbilisi / Georgia" => "5",
+         "Tegucigalpa / Honduras" => "-6",
+         "Tehran / Iran" => "3.5",
+         "Tientsin / China" => "8",
+         "Tijuana / Mexico" => "-8",
+         "Tirane / Albania" => "1",
+         "Tokyo / Japan" => "9",
+         "Toledo / USA" => "-5",
+         "Topeka / USA" => "-6",
+         "Toronto / Canada" => "-4",
+         "Trenton / USA" => "-5",
+         "Tripoli / Libya" => "2",
+         "Tsingtao / China" => "8",
+         "Tucson / USA" => "-7",
+         "Tucuman / Argentina" => "-3",
+         "Tunis / Tunisia" => "1",
+         "Turin / Italy" => "1",
+         "Ufa / Russia" => "5",
+         "Valletta / Malta" => "1",
+         "Valparaiso / Chile" => "-3",
+         "Vancouver / Canada" => "-8",
+         "Venezuela / Valenzia" => "-4",
+         "Venice / Italy" => "1",
+         "Veracruz / Mexico" => "-6",
+         "Victoria / Seychelles" => "4",
+         "Vienna / Austria" => "1",
+         "Vientiane / Laos" => "7",
+         "Vila / Vanuatu" => "11",
+         "Vilnius / Lithuania" => "1",
+         "Vladivostok / Russia" => "10",
+         "Warsaw / Poland" => "1",
+         "Washington DC / USA" => "-5",
+         "Wellington / New Zealand" => "13",
+         "WIB / Indonesia" => "7",
+         "Wichita / USA" => "-6",
+         "Windhoek / Namibia" => "2",
+         "Winnipeg / Canada" => "-6",
+         "WIT / Indonesia" => "9",
+         "WITA / Indonesia" => "8",
+         "Wroclaw / Poland" => "1",
+         "Wuhan / China" => "8",
+         "Yakutsk / Russia" => "9",
+         "Yaounde / Cameroon" => "1",
+         "Yekaterinburg / Russia" => "5",
+         "Yerevan / Armenia" => "4",
+         "Yokohama / Japan" => "9",
+         "Zagreb / Croatia" => "1",
+         "Zhenghou / China" => "8",
+         "Zibo / China" => "8",
+         "Zurick / Switzerland" => "1");
+    ?>
+
+
+
+    <?php
+    /*---------------------------------------------------------------*/
+    /*
+        Titre : Pays et capitales
+
+        URL   : https://phpsources.net/code_s.php?id=1006
+        Date édition     : 15 Fév 2019
+        Date mise à jour : 07 Aout 2019
+        Rapport de la maj:
+        - refactoring du code en PHP 7
+        - fonctionnement du code vérifié
+        - correction du code
+        - amélioration du code
+        - modification de la description
+    */
+    /*---------------------------------------------------------------*/
+
+         $pays = array(
+         "Andorre-la-Vieille" => "Andorre",
+         "Abou Dhabi" => "Emirats arabes unis",
+         "Kaboul" => "Afghanistan",
+         "Saint-John's" => "Antigua-et-Barbuda",
+         "The Valley" => "Anguilla",
+         "Tirana" => "Albanie",
+         "Erevan" => "Arménie",
+         "Willemstad" => "Antilles néerlandaises",
+         "Luanda" => "Angola",
+         "Buenos Aires" => "Argentine",
+         "Pago Pago" => "Samoa Américaines",
+         "Vienne" => "Autriche",
+         "Canberra" => "Australie",
+         "Oranjestad" => "Aruba",
+         "Bakou" => "Azerbaïdjan",
+         "Sarajevo" => "Bosnie-Herzégovine",
+         "Bridgetown" => "Barbade",
+         "Dacca" => "Bangladesh",
+         "Bruxelles" => "Belgique",
+         "Sofia" => "Bulgarie",
+         "Manama" => "Bahreïn",
+         "Bujumbura" => "Burundi",
+         "Porto Novo" => "Bénin",
+         "Hamilton" => "Bermudes",
+         "Bandar Seri Begawan" => "Brunei Darussalam",
+         "La Paz" => "Bolivie",
+         "Brasilia" => "Brésil",
+         "Nassau" => "Bahamas",
+         "Thimphou" => "Bhoutan",
+         "Gaborone" => "Botswana",
+         "Minsk" => "Biélorussie",
+         "Belmopan" => "Belize",
+         "Ottawa" => "Canada",
+         "Bantam" => "Iles cocos",
+         "Kinshasa" => "Congo",
+         "Bangui" => "République Centrafricaine",
+         "Brazzaville" => "Congo",
+         "Berne" => "Suisse",
+         "Yamoussoukro" => "Côte d'Ivoire",
+         "Avarua" => "Iles Cook",
+         "Santiago" => "Chili",
+         "Yaoundé" => "Cameroun",
+         "Pékin" => "Chine",
+         "Santa Fe de Bogota" => "Colombie",
+         "San José" => "Costa Rica",
+         "Prague" => "Tchécoslovaquie",
+         "La Havane" => "Cuba",
+         "Praia" => "Cap-Vert",
+         "Flying Fish Cove" => "Ile Christmas",
+         "Nicosie" => "Chypre",
+         "Prague" => "République Tchèque",
+         "Berlin" => "Allemagne",
+         "Djibouti" => "Djibouti",
+         "Copenhague" => "Danemark",
+         "Roseau" => "Dominique",
+         "Saint-Domingue" => "République Dominicaine",
+         "Alger" => "Algérie",
+         "Quito" => "Equateur",
+         "Tallin" => "Estonie",
+         "Le Caire" => "Egypte",
+         "El Aiun" => "Sahara occidental",
+         "Asmara" => "Erythrée",
+         "Madrid" => "Espagne",
+         "Addis-Abeba" => "Ethiopie",
+         "Helsinki" => "Finlande",
+         "Suva" => "Fidji",
+         "Stanley" => "Iles Falklands",
+         "Palikir" => "Micronésie",
+         "Torshavn" => "Ile Feroe",
+         "Paris" => "France",
+         "Libreville" => "Gabon",
+         "Saint-Georges" => "Grenade",
+         "Tbilissi" => "Géorgie",
+         "Cayenne" => "Guyane Française",
+         "Accra" => "Ghana",
+         "Gibraltar" => "Gibraltar",
+         "Nuuk" => "Groà«nland",
+         "Banjul" => "Gambie",
+         "Conakry" => "Guinée",
+         "Basse-Terre" => "Guadeloupe",
+         "Ath&eagrave;nes" => "Grèce",
+         "Guatemala" => "Guatemala",
+         "Agaà±na" => "Guam",
+         "Bissau" => "Guinée-Bissao",
+         "Georgetown" => "Guyane",
+         "Tegucigalpa" => "Honduras",
+         "Zagreb" => "Croatie",
+         "Port-au-Prince" => "Haïti",
+         "Budapest" => "Hongrie",
+         "Jakarta" => "Indonésie",
+         "Dublin" => "Irlande",
+         "Tel-Aviv" => "Israà«l",
+         "New Delhi" => "Inde",
+         "Bagdad" => "Iraq",
+         "Téhéran" => "Iran",
+         "Reykjavik" => "Islande",
+         "Rome" => "Italie",
+         "Kingston" => "Jamaïque",
+         "Amman" => "Jordanie",
+         "Tokyo" => "Japon",
+         "Nairobi" => "Kenya",
+         "Bichkek" => "Kirghistan",
+         "Ouagadougou" => "Burkina Faso",
+         "Bairiki" => "Kiribati",
+         "Moroni" => "République comorienne",
+         "Basseterre" => "Saint-Christophe-et-Niévès",
+         "Pyongyang" => "Corée du Nord",
+         "Séoul" => "Corée du Sud",
+         "Koweït" => "Koweït",
+         "George Town" => "Iles Caïmans",
+         "Astana" => "Kazakhstan",
+         "Vientiane" => "Laos",
+         "Beyrouth" => "Liban",
+         "Castries" => "Sainte-Lucie",
+         "Vaduz" => "Liechtenstein",
+         "Colombo" => "Sri Lanka",
+         "Monrovia" => "Libéria",
+         "Maseru" => "Lesotho",
+         "Vilnius" => "Lituanie",
+         "Luxembourg" => "Luxembourg",
+         "Riga" => "Lettonie",
+         "Triploi" => "Libye",
+         "Rabat" => "Maroc",
+         "Monaco" => "Monaco",
+         "Chisinau" => "Moldavie",
+         "Antananarivo" => "Madagascar",
+         "Dalap-Uliga-Darrit" => "Marshall",
+         "Skopje" => "Macédoine",
+         "Oulan-Bator" => "Mongolie",
+         "Macao" => "Makau",
+         "Garapan" => "Ile Mariana du nord",
+         "Nouakchott" => "Mauritanie",
+         "Plymouth" => "Monteserrat",
+         "La Valette" => "Maurice",
+         "Malé" => "Maldives",
+         "Lilongwe" => "Malawi",
+         "Mexico" => "Mexique West",
+         "Kuala Lumpur" => "Malaisie",
+         "Maputo" => "Mozambique",
+         "Windhoek" => "Namibie",
+         "Nouméa" => "Nouvelle-Calédonie",
+         "Niamey" => "Niger",
+         "Kingston" => "Ile de Norfolk",
+         "Abuja" => "Nigeria",
+         "Managua" => "Nicaragua",
+         "Amsterdam" => "Pays-Bas",
+         "Oslo" => "Norvège",
+         "Katmandou" => "Népal",
+         "Yaren" => "Nauru",
+         "Alofi" => "Niue",
+         "Wellington" => "Nouvelle-Zélande",
+         "Mascate" => "Oman",
+         "Panama" => "Panama",
+         "Lima" => "Pérou",
+         "Papeete" => "Polynésie Française",
+         "Port Moresby" => "Papouasie - Nouvelle Guinée",
+         "Manille" => "Philippines",
+         "Islamabad" => "Pakistan",
+         "Varsovie" => "Pologne",
+         "Saint-Pierre" => "St. Pierre and Miquelon",
+         "Adamstown" => "Pitcairn",
+         "San Juan" => "Porto Rico",
+         "aucune" => "Palestine",
+         "Lisbonne" => "Portugal",
+         "Koror" => "Palau",
+         "Asomption" => "Paraguay",
+         "Doha" => "Qatar",
+         "Malabo" => "Guinée équatoriale",
+         "Saint-Denis" => "Réunion",
+         "Bucarest" => "Roumanie",
+         "Kigali" => "Rwanda",
+         "Riyad" => "Arabie saoudite",
+         "Honiara" => "Iles Salomon",
+         "Victoria" => "Seychelles",
+         "Khartoum" => "Soudan",
+         "Stockholm" => "Suède",
+         "Singapour" => "Singapour",
+         "Jamestown" => "Saint Hélène",
+         "Ljubljana" => "Slovénie",
+         "Bratislava" => "Slovaquie",
+         "Freetown" => "Sierra Leone",
+         "Saint-Marin" => "Saint-Marin",
+         "Dakar" => "Sénégal",
+         "Mogadiscio" => "Somalie",
+         "Paramaribo" => "Suriname",
+         "Sao Tomé" => "Sao Tomé-et-Principe",
+         "Moscou" => "Union Soviétique",
+         "San Salvador" => "Salvador",
+         "Damas" => "Syrie",
+         "Mbabane" => "Swaziland",
+         "Cockburn Town" => "Turks et caicos",
+         "Ndjamena" => "République du Tchad",
+         "Lomé" => "Togo",
+         "Bangkok" => "Thaïlande",
+         "Grozny" => "Tchétchénie",
+         "aucune" => "Iles Tokelau",
+         "Achgabat" => "Turkménistan",
+         "Tunis" => "Tunisie",
+         "Nuku'alofa" => "Tonga",
+         "Dili" => "Timor-oriental",
+         "Ankara" => "Turquie",
+         "Port d'Espagne" => "Trinité-et-Tobago",
+         "Fongafale" => "Tuvalu",
+         "Taipei" => "Taiwan",
+         "Dodoma" => "Tanzanie",
+         "Kiev" => "Ukraine",
+         "Kampala" => "Ouganda",
+         "Londres" => "Royaume-Uni",
+         "Washington" => "Etats Unis d'Amérique",
+         "Montevideo" => "Uruguay",
+         "Tachkent" => "Ousbékistan",
+         "Cité du Vatican" => "Vatican",
+         "Kingstown" => "Saint-Vincent-et-les Grenadines",
+         "Caracas" => "Vénézuela",
+         "Charlotte Amalie" => "Iles vierges américaines",
+         "Road Town" => "Iles vierges britanniques ",
+         "Hanoi" => "Viêt-Nam",
+         "Port-Vila" => "Vanuatu",
+         "Mata-Utu" => "Wallis et Futuna",
+         "Apia" => "Samoa occidentales",
+         "Sanaa" => "Yémen",
+         "Mamoudzou" => "Mayotte",
+         "Belgrade" => "Yougoslavie",
+         "Pretoria" => "Afrique du Sud",
+         "Lusaka" => "Zambie",
+         "Harare" => "Zimbabwe");
+    ?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Avoir les initiales d'un nom et d'un prénom
+
+    URL   : https://phpsources.net/code_s.php?id=594
+    Auteur           : cristo
+    Date édition     : 16 Juil 2010
+    Date mise à jour : 15 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+    - modification de la description
+*/
+/*---------------------------------------------------------------*/
+
+    function initiales($nom){
+        $nom_initiale = ''; // déclare le recipient
+        $n_mot = explode(" ",$nom);
+        foreach($n_mot as $lettre){
+            $nom_initiale .= $lettre{0}.'.';
+        }
+        return strtoupper($nom_initiale);
+    }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Bannie les mots d'un texte
+
+    URL   : https://phpsources.net/code_s.php?id=328
+    Date édition     : 25 Jan 2008
+    Date mise à jour : 13 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    // le texte
+    $description = 'l\'idiot du village est un simple d\'esprit';
+    // liste des mots a bannir dans un tableau
+    $tb = array("enfoiré","idiot","noob");
+    // initialise le compteur
+    $j=0;
+    // boucle sur la quantité des valeur du tableau $tb
+    while ($j<sizeof($tb)) {
+    // le masque avec les délimitateurs
+    $masque = '~\b'.$tb[$j].'\b~';
+    // la condition avec le test sur les mots du texte
+    if( preg_match_all($masque, $description, $matches)) {
+    // le message d'erreur
+     echo '<br />Mot non autorisé dans le texte: <strong>'.$matches[0][0].
+'</strong>';
+     }
+    // + 1 dans le compteur, on continue de boucler sur tous les mots bannis
+     $j++;
+    }
+?>
+
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Compte le nombre de fois qu'un caractère existe
+
+    URL   : https://phpsources.net/code_s.php?id=581
+    Auteur           : mercier133
+    Date édition     : 27 Mars 2010
+    Date mise à jour : 11 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+    - modification de la description
+*/
+/*---------------------------------------------------------------*/
+
+    /*
+     * @Entrée : $string un string et $c un caractère
+     * @Sortie : (int) nombre de mot dans $string contenant la caractère $c
+     */
+    function countWordsWithChar($string,$c){
+      $mots = preg_split("/[\s,;\.!\?:]+/", $string);
+      $count = 0;
+      foreach($mots as $mot){
+        if(preg_match("/$c/",$mot)){
+          $count++;
+        }
+      }
+      return $count;
+    }
+
+    /*
+     * @Entrée : $string un string et $c un caractère
+     * @Sortie : (int) nombre de mot dans $string contenant la caractère $c
+     * qu'il soit majuscule ou minuscule (insensible à la case)
+     */
+    function countWordsWithCharCaseInsensitive($string,$c){
+      $mots = preg_split("/[\s,;\.!\?:]+/", $string);
+      $count = 0;
+      foreach($mots as $mot){
+        if(preg_match("/$c/i",$mot,$result)){
+          $count++;
+        }
+      }
+      return $count;
+    }
+?>
+
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Conversion d'une chaine en minuscules/majuscules
+
+    URL   : https://phpsources.net/code_s.php?id=35
+    Date édition     : 31 Aout 2004
+    Date mise à jour : 23 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+  $str = 'I love php';
+
+  // Met le premier caractère en majuscule avec la fonction ucfirst ()
+  echo ucfirst($str); // I love php
+
+  // Met tous les caractères en majuscule avec la fonction mb_strtoupper ()
+  echo mb_strtoupper($str); // I LOVE PHP
+
+  // Met tous les caractères en minuscule avec la fonction strtolower ()
+  echo strtolower($str); // i love php
+
+  // Met le premier caractère de chaque mot en majuscule : fonction ucwords ()
+  echo ucwords($str); // I Love Php
+?>
+
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Correcteur de texte avec mots en majuscule
+
+    URL   : https://phpsources.net/code_s.php?id=1139
+    Website auteur   : https://www.shared-house.com/
+    Date édition     : 14 Oct 2020
+    Date mise à jour : 14 Nov 2020
+    Rapport de la maj:
+    - modification de la description
+*/
+/*---------------------------------------------------------------*/
+
+function verif_alpha($str){
+    // On cherche tt les caractères autre que [A-z]
+    preg_match("/([^A-Za-z\s])/",$str,$result);
+    // si on trouve des caractère autre que A-z
+    if(!empty($result)){
+        return false;
+    }
+    return true;
+}
+
+function corrige_texte($texte){
+  //  $string = strtolower($texte); // Met tout le texte en minuscule
+    // On corrige pour les noms propres bien saisis
+    $capital=false;
+    $temp_lettre='';
+
+    for($i = 0; $i < (strlen($texte)-1); $i++){
+        $lettre = substr($texte, $i, 1);
+        // Si la lettre est en minuscule il faut la laisser en minuscule
+
+// Si la lettre est en majuscule, il faut la laisser en majuscule seulement si
+// la suivante est en minuscule
+        if(strtoupper($lettre) == $lettre and $capital == false
+            and $lettre != '.' and $lettre != '!' and $lettre != '?'
+            and $lettre != ':' and $lettre != ' ' and $lettre != "'" and
+verif_alpha($lettre)
+            )
+        {$capital = true;
+        $temp_lettre=$lettre;
+        $lettre='';
+       // echo $temp_lettre.'déjaMAJ';
+        }
+        elseif(!empty($lettre) && $capital == true ){
+            // la précédente est en majuscule
+            if (strtoupper($lettre) == $lettre)
+            {
+
+// la précédente et la courante sont en majuscule donc on met tout en
+// minuscule
+                $lettre = strtolower($lettre);
+                $temp_lettre = strtolower($temp_lettre);
+                //$lettre='';
+            }
+            else
+            {
+
+// la précédente est en majuscule et la courante  en minuscule, on laisse tel
+// quel
+
+            }
+
+          //  $lettre = strtolower($lettre); // Met une majuscule
+            $capital = false;
+        }
+        if ($temp_lettre=='')
+        {
+            $string .= strtolower($lettre);
+        }
+        elseif ($lettre!='')
+        {
+            $string .= $temp_lettre.$lettre;
+            $temp_lettre='';
+        }
+    }
+
+// la dernière lettre est toujours à mettre en minuscule et il faut aussi la
+// temporaire si elle existe
+
+    $string.= strtolower($temp_lettre).strtolower(substr($texte, (strlen($texte)
+-1), 1));
+
+    $capital = true;
+    $new_texte = '';
+
+    for($i = 0; $i < strlen($string); $i++){
+        $lettre = substr($string, $i, 1);
+        if($lettre == '.' || $lettre == '!' || $lettre == '?')
+        {$capital = true;}
+        elseif(!empty($lettre) && $capital == true && verif_alpha($lettre) &&
+$lettre !=' '){
+            $lettre = strtoupper($lettre); // Met une majuscule
+            $capital = false;
+        }
+        $new_texte .= $lettre;
+    }
+    return $new_texte;
+}
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Coupe divise une chaine selon une limite
+
+    URL   : https://phpsources.net/code_s.php?id=1072
+    Auteur           : foxy
+    Date édition     : 25 Avril 2019
+    Date mise à jour : 22 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    $chaine = 'ABATTANT BANDE 43CM BLANC<br>4 UNITES PAR CARTON';
+
+    $coupe = explode('<br>', $chaine);
+    $avant = array_pop($coupe);
+    $apres = implode('<br>', $coupe);
+
+    var_dump($avant,$apres);
+
+    //  '4 UNITES PAR CARTON' (length=19)
+    //  'ABATTANT BANDE 43CM BLANC' (length=25)
+
+?>
+
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Coupe sépare une phrase en mots
+
+    URL   : https://phpsources.net/code_s.php?id=1011
+    Date édition     : 15 Fév 2019
+    Date mise à jour : 19 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    function split_words($string){
+     $retour = array();
+      $delimiteurs = ' .!?, :;(){}[]%';
+      $tok = strtok($string, " ");
+      while (strlen(join(" ", $retour)) != strlen($string)) {
+      array_push($retour, $tok);
+      $tok = strtok($delimiteurs);
+      }
+      return $retour;
+    }
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Explose une chaine en PHP
+
+    URL   : https://phpsources.net/code_s.php?id=399
+    Auteur           : Supercanard
+    Date édition     : 29 Mai 2008
+    Date mise à jour : 19 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    function exploserChaine( $chaine )
+    {
+        /*
+        Explose une chaîne de caractère suivant pour en faire un tableau de
+ mots clés
+        */
+        $to = '.,-;:!?/&"';
+        $from = '          ';
+        $chaine = strtr( $chaine, $to, $from );
+    // On remplace les caractères $to par des espaces
+        $tabTemp = explode( ' ', $chaine );
+    // On explose la chaîne dans un tableau temporaire suivant le délimiteur
+    // espace
+
+        foreach( $tabTemp as $k => $v )
+        {
+            if( $v != NULL ) // Pour éviter d'avoir des entrées vides
+            {
+                if( preg_match( '#(.*){1}(\')#', $v, $matches ) )
+
+// On cherche un caractère suivi d'une apostrophe ( pour les mots du genre :
+    // d'autres )
+                {
+                    $v = substr( $v, 2 );
+    // Si trouvé on élimine le caractère et l'apostrophe
+                }
+                $tabChaine[] = $v; // On ajoute le mot au tableau final
+            }
+        }
+        return $tabChaine;
+    }
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Extrait des adresses emails dans un texte
+
+    URL   : https://phpsources.net/code_s.php?id=260
+    Date édition     : 13 Mars 2007
+    Date mise à jour : 22 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    // texte exemple
+    $texte = 'J\'ecris a cette adresse : mail@ndd.fr car c\'est la mienne mais
+              j\'aurais pue ecrire a cette adresse: mail222@ndd.com car j\'ai
+              2 adresse mail';
+    // l'expression pour reperer une adresse email
+    $email_regex = "/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}/";
+    // Passe tout le texte dans un tableau
+    $regs = preg_split("/[\s,:]+/", $texte);
+
+    $i=0; // boucle principale
+    $j=0; // boucle quand une adresse mail est trouvé
+    $nb = sizeof($regs);
+    foreach($regs as $key) {
+
+         if ($i < $nb) {
+
+    // on regarde si chaque element du tableau contient ou pas 1 adresse email
+          preg_match($email_regex, $key, $matches, PREG_OFFSET_CAPTURE);
+          // Si oui on la conserve dans le tableau $tab
+          if (!empty($matches[0]))
+            { $tab[$j] = $matches[0];  $j++;};
+              $i++;
+         }
+             else
+              break;
+
+    }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Filtre les messages d'insultes dans 1 chaine - Anti spam
+
+    URL   : https://phpsources.net/code_s.php?id=68
+    Auteur           : Azoui
+    Date édition     : 01 Sept 2004
+    Date mise à jour : 15 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    $message = "Les .... sont des abrutis et bien plus encore";
+
+    $cencure = array('idiots','abrutis','mal');
+    $i = 0;
+    while ($i < count($cencure)-1)
+    {
+      if (strpos($message, $cencure[$i]))
+      {
+        $message = str_replace($cencure[$i], "*******", $message);
+        echo "cencure détectée!!";
+        break;
+      }
+      $i++;
+    }
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Formate une liste en PHP pour un rendu naturel
+
+    URL   : https://phpsources.net/code_s.php?id=510
+    Auteur           : forty
+    Website auteur   : http://www.toplien.fr/
+    Date édition     : 24 Avril 2009
+    Date mise à jour : 21 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    function format_liste($tableau) {
+      $tableau_tmp = $tableau;
+      $dernier_element = array_pop($tableau_tmp);
+      if ($dernier_element === null) {
+        return '';
+      } elseif (!count($tableau_tmp)) {
+        return $dernier_element;
+      } else {
+        return implode(', ', $tableau_tmp) . ' et ' . $dernier_element;
+      }
+    }
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Génère 1 chaine de caractère unique et aléatoire
+
+    URL   : https://phpsources.net/code_s.php?id=87
+    Date édition     : 04 Nov 2004
+    Date mise à jour : 25 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    // Fonction 1
+
+    function random_1($car) {
+    $string = "";
+    $chaine = "abcdefghijklmnpqrstuvwxy";
+    srand((double)microtime()*1000000);
+    for($i=0; $i<$car; $i++) {
+    $string .= $chaine[rand()%strlen($chaine)];
+    }
+    return $string;
+    }
+
+     // Fonction 2
+
+    function random_2($universal_key) {
+
+    $string = "";
+
+    $user_ramdom_key =
+"(aLABbC0cEd1[eDf2FghR3ij4kYXQl5Um-OPn6pVq7rJs8*tuW9I+vGw@xHTy&#)K]Z%§!M_S";
+    srand((double)microtime()*time());
+    for($i=0; $i<$universal_key; $i++) {
+    $string .= $user_ramdom_key[rand()%strlen($user_ramdom_key)];
+    }
+    return $string;
+    }
+
+     // Fonction 3
+
+    function random_3($nbr) {
+    $chn = '';
+    for ($i=1;$i<=$nbr;$i++)
+        $chn .= chr(floor(rand(0, 25)+97));
+        return $chn;
+       }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Vérifie si une chaine est alphanumérique
+
+    URL   : https://phpsources.net/code_s.php?id=42
+    Date édition     : 02 Sept 2004
+    Date mise à jour : 08 Aout 2019
+    Rapport de la maj:
+    - refactoring du code en PHP 7
+    - fonctionnement du code vérifié
+    - amélioration du code
+*/
+/*---------------------------------------------------------------*/
+
+    $chaine = "VotreChaine10000ATester";
+
+    if( preg_match( "#^[[:alnum:]]+$#" , $chaine ) )
+
+      echo 'La chaîne est alphanumérique';
+      else
+      echo 'La chaîne n\'est pas alphanumérique';
+
+    // OU avec la commande native PHP ctype_alnum ()
+
+    if( ctype_alnum( $chaine ) )
+
+      echo 'La chaîne est alphanumérique';
+      else
+      echo 'La chaîne n\'est pas alphanumérique';
+
+    // Affichera dans les 2 cas : La chaîne est alphanumérique
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Vérifie si une chaine est alphabétique ou alphanumérique
+
+    URL   : https://phpsources.net/code_s.php?id=609
+    Auteur           : mercier133
+    Date édition     : 13 Oct 2010
+    Date mise à jour : 07 Sept 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+ <?php
+
+    function verif_alpha($str){
+      // On cherche tt les caractères autre que [A-z]
+      preg_match("/([^A-Za-z\s])/",$str,$result);
+      // si on trouve des caractère autre que A-z
+      if(!empty($result)){
+        return false;
+      }
+      return true;
+    }
+
+    function verif_alphaNum($str){
+      // On cherche tt les caractères autre que [A-Za-z] ou [0-9]
+      preg_match("/([^A-Za-z0-9\s])/",$str,$result);
+      // si on trouve des caractère autre que A-Za-z ou 0-9
+      if(!empty($result)){
+        return false;
+      }
+      return true;
+    }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Supprime les espaces en trop dans une chaine
+
+    URL   : https://phpsources.net/code_s.php?id=148
+    Date édition     : 25 Nov 2005
+    Date mise à jour : 17 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+    - amélioration du code
+    - modification de la description
+*/
+/*---------------------------------------------------------------*/?>
+      Supprimer les espaces au MILIEU de la chaine
+
+<?php
+    $str = 'enlève les espaces    en milieu       de   chaine';
+    $str = preg_replace('/\s\s+/', ' ', $str);
+    echo $str;
+?>
+
+    Supprimer  les espaces en DEBUT de chaine
+
+<?php
+    $str = ' enlève les espaces au début de la chaine';
+    $str = ltrim($str);
+    echo $str;
+?>
+
+    Supprimer les espaces en FIN de chaine
+
+<?php
+    $str = 'Supprimer les espaces présents à la fin de la chaine ';
+    $str = rtrim($str);
+    echo $str;
+?>
+
+    Supprimer les espaces au DEBUT ET FIN de chaine
+
+<?php
+    $str = ' Supprimer les espaces au début et à la fin de la chaine ';
+    $str = trim($str);
+    echo $str;
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Retourne un nombre formaté pour l'affichage
+
+    URL   : https://phpsources.net/code_s.php?id=168
+    Date édition     : 22 Avril 2006
+    Date mise à jour : 27 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    $nombre = "134574.2131";
+
+    // par défaut
+    echo number_format($nombre); // 134,574
+
+    // avec 2 décimales aprés la virgule
+    echo number_format($nombre, 2, ',', ' ');  // 134 574,21
+
+    // avec 2 décimales aprés la virgule
+    echo number_format($nombre, 2, '.', ''); // 134574.21
+
+    // sans décimale et aucun séparateur
+    echo number_format( $nombre, 0, '', ' ');  // 134 574
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Remplace uniquement la première occurrence d'une chaine
+
+    URL   : https://phpsources.net/code_s.php?id=245
+    Auteur           : Olivier
+    Date édition     : 24 Fév 2007
+    Date mise à jour : 19 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+    $var = 'abcdefghi abcdefghi abcdefghi';
+
+    // remplacez toute les occurrences
+    // pattern, remplacement, chaine
+
+    echo preg_replace('/abcdef/', 'FOO', $var);
+    // affiche: FOOghi FOOghi FOOghi
+
+    // remplacez seulement la première occurrence
+    // pattern, remplacement, chaine, limite
+
+    echo preg_replace('/abcdef/', 'FOO', $var, 1);
+    // affiche: FOOghi abcdefghi abcdefghi
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Remplace une chaine ou un tableau dans une chaine
+
+    URL   : https://phpsources.net/code_s.php?id=254
+    Date édition     : 02 Mars 2007
+    Date mise à jour : 14 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/?>
+    Exemple avec une chaine:
+
+<?php
+
+    $chaine = 'Je ne suis pas en forme aujourdh\'ui';
+
+    $chaine = str_replace("ne suis pas", "suis", $chaine);
+
+    echo $chaine.'<br />';
+
+    // affiche: Je suis en forme aujourdh'ui
+?>
+
+    Exemple avec des tableaux:
+
+<?php
+
+    // La chaine de depart
+    $chaine = 'type prenom nom est une personne de sexe genre';
+
+    // le masque
+    $tab_r = array('type', 'prenom', 'nom', 'genre');
+    // valeur de remplacement homme
+    $tab_h = array('Mr', 'Martin', 'Durand', 'masculin');
+    // valeur de remplacement femme
+    $tab_f = array('Mme', 'Lise', 'Duhel', 'féminin');
+
+    // chaine homme
+    $chaine_h = str_replace($tab_r, $tab_h, $chaine);
+
+    // chaine femme
+    $chaine_f = str_replace($tab_r, $tab_f, $chaine);
+
+    echo $chaine_h.'<br />';
+    // affiche: Mr Martin Durand est une personne de sexe masculin
+    echo $chaine_f.'<br />';
+    // affiche: Mme Lise Duhel est une personne de sexe féminin
+?>
+
+
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Remplace tout les caractères spéciaux dans un texte
+
+    URL   : https://phpsources.net/code_s.php?id=608
+    Auteur           : mercier133
+    Date édition     : 13 Oct 2010
+    Date mise à jour : 07 Sept 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+    - maintenance du code
+*/
+/*---------------------------------------------------------------*/
+
+       function replaceSpecialChar($str) {
+    $ch0 = array(
+            "œ"=>"oe",
+            "Œ"=>"OE",
+            "æ"=>"ae",
+            "Æ"=>"AE",
+            "À" => "A",
+            "Á" => "A",
+            "Â" => "A",
+            "à" => "A",
+            "Ä" => "A",
+            "Å" => "A",
+            "&#256;" => "A",
+            "&#258;" => "A",
+            "&#461;" => "A",
+            "&#7840;" => "A",
+            "&#7842;" => "A",
+            "&#7844;" => "A",
+            "&#7846;" => "A",
+            "&#7848;" => "A",
+            "&#7850;" => "A",
+            "&#7852;" => "A",
+            "&#7854;" => "A",
+            "&#7856;" => "A",
+            "&#7858;" => "A",
+            "&#7860;" => "A",
+            "&#7862;" => "A",
+            "&#506;" => "A",
+            "&#260;" => "A",
+            "à" => "a",
+            "á" => "a",
+            "â" => "a",
+            "à" => "a",
+            "ä" => "a",
+            "å" => "a",
+            "&#257;" => "a",
+            "&#259;" => "a",
+            "&#462;" => "a",
+            "&#7841;" => "a",
+            "&#7843;" => "a",
+            "&#7845;" => "a",
+            "&#7847;" => "a",
+            "&#7849;" => "a",
+            "&#7851;" => "a",
+            "&#7853;" => "a",
+            "&#7855;" => "a",
+            "&#7857;" => "a",
+            "&#7859;" => "a",
+            "&#7861;" => "a",
+            "&#7863;" => "a",
+            "&#507;" => "a",
+            "&#261;" => "a",
+            "Ç" => "C",
+            "&#262;" => "C",
+            "&#264;" => "C",
+            "&#266;" => "C",
+            "&#268;" => "C",
+            "ç" => "c",
+            "&#263;" => "c",
+            "&#265;" => "c",
+            "&#267;" => "c",
+            "&#269;" => "c",
+            "Ð" => "D",
+            "&#270;" => "D",
+            "&#272;" => "D",
+            "&#271;" => "d",
+            "&#273;" => "d",
+            "È" => "E",
+            "É" => "E",
+            "Ê" => "E",
+            "Ë" => "E",
+            "&#274;" => "E",
+            "&#276;" => "E",
+            "&#278;" => "E",
+            "&#280;" => "E",
+            "&#282;" => "E",
+            "&#7864;" => "E",
+            "&#7866;" => "E",
+            "&#7868;" => "E",
+            "&#7870;" => "E",
+            "&#7872;" => "E",
+            "&#7874;" => "E",
+            "&#7876;" => "E",
+            "&#7878;" => "E",
+            "è" => "e",
+            "é" => "e",
+            "ê" => "e",
+            "ë" => "e",
+            "&#275;" => "e",
+            "&#277;" => "e",
+            "&#279;" => "e",
+            "&#281;" => "e",
+            "&#283;" => "e",
+            "&#7865;" => "e",
+            "&#7867;" => "e",
+            "&#7869;" => "e",
+            "&#7871;" => "e",
+            "&#7873;" => "e",
+            "&#7875;" => "e",
+            "&#7877;" => "e",
+            "&#7879;" => "e",
+            "&#284;" => "G",
+            "&#286;" => "G",
+            "&#288;" => "G",
+            "&#290;" => "G",
+            "&#285;" => "g",
+            "&#287;" => "g",
+            "&#289;" => "g",
+            "&#291;" => "g",
+            "&#292;" => "H",
+            "&#294;" => "H",
+            "&#293;" => "h",
+            "&#295;" => "h",
+            "Ì" => "I",
+            "Í" => "I",
+            "Î" => "I",
+            "Ï" => "I",
+            "&#296;" => "I",
+            "&#298;" => "I",
+            "&#300;" => "I",
+            "&#302;" => "I",
+            "&#304;" => "I",
+            "&#463;" => "I",
+            "&#7880;" => "I",
+            "&#7882;" => "I",
+            "&#308;" => "J",
+            "&#309;" => "j",
+            "&#310;" => "K",
+            "&#311;" => "k",
+            "&#313;" => "L",
+            "&#315;" => "L",
+            "&#317;" => "L",
+            "&#319;" => "L",
+            "&#321;" => "L",
+            "&#314;" => "l",
+            "&#316;" => "l",
+            "&#318;" => "l",
+            "&#320;" => "l",
+            "&#322;" => "l",
+            "Ñ" => "N",
+            "&#323;" => "N",
+            "&#325;" => "N",
+            "&#327;" => "N",
+            "ñ" => "n",
+            "&#324;" => "n",
+            "&#326;" => "n",
+            "&#328;" => "n",
+            "&#329;" => "n",
+            "Ò" => "O",
+            "Ó" => "O",
+            "Ô" => "O",
+            "Õ" => "O",
+            "Ö" => "O",
+            "Ø" => "O",
+            "&#332;" => "O",
+            "&#334;" => "O",
+            "&#336;" => "O",
+            "&#416;" => "O",
+            "&#465;" => "O",
+            "&#510;" => "O",
+            "&#7884;" => "O",
+            "&#7886;" => "O",
+            "&#7888;" => "O",
+            "&#7890;" => "O",
+            "&#7892;" => "O",
+            "&#7894;" => "O",
+            "&#7896;" => "O",
+            "&#7898;" => "O",
+            "&#7900;" => "O",
+            "&#7902;" => "O",
+            "&#7904;" => "O",
+            "&#7906;" => "O",
+            "ò" => "o",
+            "ó" => "o",
+            "ô" => "o",
+            "õ" => "o",
+            "ö" => "o",
+            "ø" => "o",
+            "&#333;" => "o",
+            "&#335;" => "o",
+            "&#337;" => "o",
+            "&#417;" => "o",
+            "&#466;" => "o",
+            "&#511;" => "o",
+            "&#7885;" => "o",
+            "&#7887;" => "o",
+            "&#7889;" => "o",
+            "&#7891;" => "o",
+            "&#7893;" => "o",
+            "&#7895;" => "o",
+            "&#7897;" => "o",
+            "&#7899;" => "o",
+            "&#7901;" => "o",
+            "&#7903;" => "o",
+            "&#7905;" => "o",
+            "&#7907;" => "o",
+            "ð" => "o",
+            "&#340;" => "R",
+            "&#342;" => "R",
+            "&#344;" => "R",
+            "&#341;" => "r",
+            "&#343;" => "r",
+            "&#345;" => "r",
+            "&#346;" => "S",
+            "&#348;" => "S",
+            "&#350;" => "S",
+            "&#347;" => "s",
+            "&#349;" => "s",
+            "&#351;" => "s",
+            "&#354;" => "T",
+            "&#356;" => "T",
+            "&#358;" => "T",
+            "&#355;" => "t",
+            "&#357;" => "t",
+            "&#359;" => "t",
+            "Ù" => "U",
+            "Ú" => "U",
+            "Û" => "U",
+            "Ü" => "U",
+            "&#360;" => "U",
+            "&#362;" => "U",
+            "&#364;" => "U",
+            "&#366;" => "U",
+            "&#368;" => "U",
+            "&#370;" => "U",
+            "&#431;" => "U",
+            "&#467;" => "U",
+            "&#469;" => "U",
+            "&#471;" => "U",
+            "&#473;" => "U",
+            "&#475;" => "U",
+            "&#7908;" => "U",
+            "&#7910;" => "U",
+            "&#7912;" => "U",
+            "&#7914;" => "U",
+            "&#7916;" => "U",
+            "&#7918;" => "U",
+            "&#7920;" => "U",
+            "ù" => "u",
+            "ú" => "u",
+            "û" => "u",
+            "ü" => "u",
+            "&#361;" => "u",
+            "&#363;" => "u",
+            "&#365;" => "u",
+            "&#367;" => "u",
+            "&#369;" => "u",
+            "&#371;" => "u",
+            "&#432;" => "u",
+            "&#468;" => "u",
+            "&#470;" => "u",
+            "&#472;" => "u",
+            "&#474;" => "u",
+            "&#476;" => "u",
+            "&#7909;" => "u",
+            "&#7911;" => "u",
+            "&#7913;" => "u",
+            "&#7915;" => "u",
+            "&#7917;" => "u",
+            "&#7919;" => "u",
+            "&#7921;" => "u",
+            "&#372;" => "W",
+            "&#7808;" => "W",
+            "&#7810;" => "W",
+            "&#7812;" => "W",
+            "&#373;" => "w",
+            "&#7809;" => "w",
+            "&#7811;" => "w",
+            "&#7813;" => "w",
+            "Ý" => "Y",
+            "&#374;" => "Y",
+            "?" => "Y",
+            "&#7922;" => "Y",
+            "&#7928;" => "Y",
+            "&#7926;" => "Y",
+            "&#7924;" => "Y",
+            "ý" => "y",
+            "ÿ" => "y",
+            "&#375;" => "y",
+            "&#7929;" => "y",
+            "&#7925;" => "y",
+            "&#7927;" => "y",
+            "&#7923;" => "y",
+            "&#377;" => "Z",
+            "&#379;" => "Z"
+            );
+        $str = strtr($str,$ch0);
+        return $str;
+    }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Remplace tous les accents par leur équivalent sans accent
+
+    URL   : https://phpsources.net/code_s.php?id=84
+    Auteur           : Azoui
+    Date édition     : 04 Nov 2004
+    Date mise à jour : 14 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+       // Remplace tous les accents par leur équivalent sans accent.
+
+       Function enleveaccents($chaine)
+        {
+         $string= strtr($chaine,
+
+"ÀÁÂàÄÅàáâàäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏ" .
+"ìíîïÙÚÛÜùúûüÿÑñ",
+       "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuynn");
+
+         return $string;
+        } ;
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Passe la première lettre d'une chaine en majuscule
+
+    URL   : https://phpsources.net/code_s.php?id=125
+    Date édition     : 24 Mai 2005
+    Date mise à jour : 22 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+   function majuscule($Chaine)
+   {
+
+   $pos = $chaine[0];
+   $maj = strtoupper($pos);
+   $i = 1;
+   $Suite = "";
+   while ($chaine[$i])
+   {
+   $Suite .= $chaine[$i];
+   $i++;
+   }
+   $ChaineConvert = $maj.$Suite;
+   return $ChaineConvert;
+   }
+
+   $chaine = 'bonjour';
+   $chaine = majuscule($chaine);
+   echo $chaine;   // affiche Bonjour
+
+
+   // OU avec cette fonction php (que nous conseillons
+   // car elle prend moins en ressource systeme)
+
+   $chaine = 'bonjour';
+   $chaine = ucfirst($chaine);
+   echo $chaine;   // affiche Bonjour
+
+?>
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Générateur de mot de passe avec lettres + nombres
+
+    URL   : https://phpsources.net/code_s.php?id=1045
+    Date édition     : 16 Fév 2019
+    Date mise à jour : 22 Aout 2019
+    Rapport de la maj:
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+function password_generator($size , $with_numbers=true , $with_tiny_letters=
+        true , $with_capital_letters=true){
+     $pass_g = "";
+      $sizeof_lchar = 0;
+      $letter = "";
+      $letter_tiny = "abcdefghijklmnopqrstuvwxyz";
+      $letter_capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      $letter_number = "0123456789";
+
+      if($with_tiny_letters == true){
+      $sizeof_lchar += 26;
+      if (isset($letter)) $letter .= $letter_tiny;
+      else $letter = $letter_tiny;
+      }
+
+      if($with_capital_letters == true){
+      $sizeof_lchar += 26;
+      if (isset($letter)) $letter .= $letter_capital;
+      else $letter = $letter_capital;
+      }
+
+      if($with_numbers == true){
+      $sizeof_lchar += 10;
+      if (isset($letter)) $letter .= $letter_number;
+      else $letter = $letter_number;
+      }
+
+      if($sizeof_lchar > 0){
+      srand((double)microtime()*date("YmdGis"));
+
+      for($cnt = 0; $cnt < $size; $cnt++){
+      $char_select = rand(0, $sizeof_lchar - 1);
+      $pass_g .= $letter[$char_select];
+      }
+      }
+      return $pass_g;
+
+    }
+?>
+
+
+
+<?php
+/*---------------------------------------------------------------*/
+/*
+    Titre : Génère des mots de passe prononcable facile à retenir
+
+    URL   : https://phpsources.net/code_s.php?id=555
+    Auteur           : mercier133
+    Date édition     : 16 Jan 2010
+    Date mise à jour : 07 Aout 2019
+    Rapport de la maj:
+    - refactoring du code en PHP 7
+    - fonctionnement du code vérifié
+*/
+/*---------------------------------------------------------------*/
+
+function generatePass( $nbr = 5 )  {
+
+
+//Liste de mots, pensez à choisir des mots avec des sons qui se prononcent
+// facilement !
+    $mots = array("bleu","blanc","rouge","jaune","vert","violet","affichera",
+"chaine","genre","retourne","fonction","commentaire","lapin","renard","image",
+"mathematique","aleatoire","hasard","source","chat","souris","chapeau","langue",
+"arbre","generer","livre","supposon","tout","vecteur","construction","violon",
+"flute","fuite","zebre","zoro","xylophone","deux","trois","quatre","cinq","sept"
+
+,"huit","neuf","douze","treize");
+    //Prononcabilité :
+    $p = 1;
+// c'est le nombre de lettre commune qu'il prendra en compte pour assembler 2
+// mots. 1 est conseiller, 2 risque de donner de temps en temps le même mot
+// (sauf
+// si la liste de $mots est longue et variée). 3,4... est à éviter !
+
+    $m1 = $mots[rand(0,count($mots)-1)];
+    $result=substr($m1,0,rand(2,strlen($m1)-1));
+    for($i=0;$i<rand(3,4);$i++){ //boucle d'initialisation
+        $pasOk=true;
+        $x =0;
+        while($pasOk && $x<100){
+
+            $m = $mots[rand(0,count($mots)-1)];
+            while($m==$m1){
+                $m = $mots[rand(0,count($mots)-1)];
+            }
+        $result = substr($result,-$p);
+            if(preg_match("#$result#",$m)){
+                $pasOk=false;
+                 $result2 = substr($result,-1);
+                $m2 =  preg_split("#$result2#",$m);
+                $result .= substr($m2[1],0,rand(2,strlen($m2[1])-1));
+            }
+            $x++;
+        } if($x==100){ return generatePass();}
+//si on n'y arrive pas on réessaye depuis le début ;)
+    }
+    if(strlen($result)<$nbr) return generatePass();
+    return $result;
+
+    }
+?>

@@ -1,0 +1,1 @@
+"SELECT bagage \r\n                FROM App\\Entity\\Bagage AS bagage \r\n                LEFT JOIN App\\Entity\\Passager as passager WITH passager.id = bagage.passager\r\n                WHERE bagage.dateChargementContenaire between '2020-11-17 00:00:00' AND '2020-11-17 23:59:59' AND bagage.escaleDepart = 5"
