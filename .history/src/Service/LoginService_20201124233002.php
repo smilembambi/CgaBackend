@@ -4,8 +4,6 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Connexion;
-use App\Entity\Escale;
-use App\Entity\Zone;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTExpiredEvent;
@@ -51,16 +49,6 @@ class LoginService
         $data = $event->getData();
         $user = $event->getUser();
 
-        $d = json_decode($this->requestStack ->getCurrentRequest()->getContent(), true);
-
-
-        $escale = $d["params"]['escale'];
-
-        /** @var ZOne $zone */
-        $zone = $d["params"]['zone'];
-
-        
-
         if (!$user instanceof UserInterface) {
             return;
         }
@@ -82,10 +70,8 @@ class LoginService
                 'nom' => $user->getNom(),
                 'sexe' => $user->getSexe(),
                 'connexion' => $connexion->getId(),
-                'zone' => $zone,
-                'lastZone' => $zone,
+                'zone' => null,
                 'escale' => $user->getEscale()->getId(),
-                'lastEscale' => $escale,
                 'service' => $user->getService()->getId(),
                 'serviceNom' => $user->getService()->getNom(),
 

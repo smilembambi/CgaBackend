@@ -53,7 +53,7 @@ class LoginService
 
         $d = json_decode($this->requestStack ->getCurrentRequest()->getContent(), true);
 
-
+        /** @var Escale $escale */
         $escale = $d["params"]['escale'];
 
         /** @var ZOne $zone */
@@ -82,10 +82,9 @@ class LoginService
                 'nom' => $user->getNom(),
                 'sexe' => $user->getSexe(),
                 'connexion' => $connexion->getId(),
-                'zone' => $zone,
-                'lastZone' => $zone,
+                'zone' => null,
                 'escale' => $user->getEscale()->getId(),
-                'lastEscale' => $escale,
+                'escaleChoisis' => $escale->getId(),
                 'service' => $user->getService()->getId(),
                 'serviceNom' => $user->getService()->getNom(),
 

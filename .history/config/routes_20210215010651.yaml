@@ -6,8 +6,8 @@ login:
   path: /login
   methods: ['POST']
 
-getrequireauth:
-  path: /getrequireauth
-  methods: ['GET']
+login:
+  path: /login
+  methods: ['POST']
 
 

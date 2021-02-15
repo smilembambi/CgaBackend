@@ -33,7 +33,6 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/getrequireauth, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/api/user/create, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/api/user/[0-9]+/enabled, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY}

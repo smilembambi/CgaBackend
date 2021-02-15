@@ -51,15 +51,17 @@ class LoginService
         $data = $event->getData();
         $user = $event->getUser();
 
-        $d = json_decode($this->requestStack ->getCurrentRequest()->getContent(), true);
+        $data = json_decode($requestStack->getCurrentRequest()->getContent(), true);
 
-
-        $escale = $d["params"]['escale'];
+        /** @var Escale $escale */
+        $escale = $data["params"]['escale'];
 
         /** @var ZOne $zone */
-        $zone = $d["params"]['zone'];
+        $zone = $data["params"]['zone'];
 
-        
+        if($request && isset() && isset($data["email"])){
+
+
 
         if (!$user instanceof UserInterface) {
             return;
@@ -82,10 +84,8 @@ class LoginService
                 'nom' => $user->getNom(),
                 'sexe' => $user->getSexe(),
                 'connexion' => $connexion->getId(),
-                'zone' => $zone,
-                'lastZone' => $zone,
+                'zone' => null,
                 'escale' => $user->getEscale()->getId(),
-                'lastEscale' => $escale,
                 'service' => $user->getService()->getId(),
                 'serviceNom' => $user->getService()->getNom(),
 

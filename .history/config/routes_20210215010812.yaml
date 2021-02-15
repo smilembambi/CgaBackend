@@ -8,6 +8,6 @@ login:
 
 getrequireauth:
   path: /getrequireauth
-  methods: ['GET']
+  methods: ['POST']
 
 

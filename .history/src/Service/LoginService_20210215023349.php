@@ -83,9 +83,9 @@ class LoginService
                 'sexe' => $user->getSexe(),
                 'connexion' => $connexion->getId(),
                 'zone' => $zone,
-                'lastZone' => $zone,
+                'zoneChoice' => $zone,
                 'escale' => $user->getEscale()->getId(),
-                'lastEscale' => $escale,
+                'escaleChoice' => $escale,
                 'service' => $user->getService()->getId(),
                 'serviceNom' => $user->getService()->getNom(),
 

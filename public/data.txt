@@ -1,7 +1,7 @@
 SELECT bagage 
                 FROM App\Entity\Bagage AS bagage 
                 LEFT JOIN App\Entity\Passager as passager WITH passager.id = bagage.passager
-                WHERE (bagage.dateChargementContenaire between '2020-11-24 00:00:00' AND '2020-11-24 23:59:59'
-                OR bagage.dateUpload between '2020-11-24 00:00:00' AND '2020-11-24 23:59:59'
-                OR bagage.dateChargementSoute between '2020-11-24 00:00:00' AND '2020-11-24 23:59:59'
-                OR bagage.dateLivraison between '2020-11-24 00:00:00' AND '2020-11-24 23:59:59' )  AND bagage.escaleDepart = 3
+                WHERE (bagage.dateChargementContenaire between '2021-02-14 00:00:00' AND '2021-02-14 23:59:59'
+                OR bagage.dateUpload between '2021-02-14 00:00:00' AND '2021-02-14 23:59:59'
+                OR bagage.dateChargementSoute between '2021-02-14 00:00:00' AND '2021-02-14 23:59:59'
+                OR bagage.dateLivraison between '2021-02-14 00:00:00' AND '2021-02-14 23:59:59' )  AND bagage.escaleDepart = 3
